@@ -35,10 +35,16 @@ def Dongu(tim0):
     sensor.convert_temp()
     sicaklik = sensor.read_temp(rom)
     istenenSicaklik = pot.read()
+    map(istenenSicaklik, 0, 1023, 0, 99)
     DispYaz(istenenSicaklik)
-    if istenenSicaklik >= sicaklik:
+    if istenenSicaklik >= (sicaklik-1):
         role.value(1) #röleyi kapat
-        
+    else:
+        role.value(0) #röleyi aç
+
+def map(x, i_m, i_M, o_m, o_M): #potansiyometreden gelen 0-1023 arası değeri 0-99 arasında mapleme
+    return max(min(o_M, (x - i_m) * (o_M - o_m) // (i_M - i_m) + o_m), o_m)
+     
 def DispYaz(sayi):
     global rakam1, rakam2
     rakam1 = (sayi//10)%10
